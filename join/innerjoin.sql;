@@ -1,0 +1,9 @@
+select * from emp;
+select * from material;
+
+-- inner join
+select * from emp inner join material on emp.eid =material.mid; 
+select emp.eid,emp.ename from emp left join material on emp.eid=material.mid;
+select emp.eid,emp.ename from emp right join material on emp.eid=material.mid;
+select * from emp cross join material;
+select * from emp full join material;

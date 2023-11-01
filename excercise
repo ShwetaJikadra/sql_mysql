@@ -1,0 +1,43 @@
+--  a.............
+ 
+ MySQL  localhost:3306 ssl  shweta2  SQL > select distinct p.description,p.productNo,c.clientName from Product_Master p,sales_order s,sales_order_details sd,client_master c  where p.ProductNo=sd.ProductNo and c.clientNo=s.clientNo and s.orderNo=sd.orderNo and clientName="Ivan Bayross";
+
+
+-- b...............
+select d.productNo,p.description,sum(d.qtyOrdered)
+from sales_order_details d,sales_order s,Product_Master p
+where p.productNo=d.productNo and s.orderNo=d.orderNo 
+group by d.productNo,p.description;
+
+-- c....................
+select distinct Product_Master.description,Product_Master.productNo from Product_Master,sales_order_details where Product_Master.productNo=sales_order_details.productNo;
+
+-- d...................
+
+select distinct s.clientNo,c.clientName from sales_order_details d,sales_order s,Product_Master p,client_master c
+where p.productNo=d.productNo and s.orderNo=d.orderNo and c.clientNo=s.clientNo and p.description='Trousers';
+
+--e
+select sd.productNo,sd.orderNo from sales_order_details sd,sales_order s,Product_Master p
+where s.orderNo=sd.orderNo and p.productNo=sd.productNo and sd.qtyOrdered<5 and p.description='Pull Overs';
+
+
+
+-- f..................
+select p.description, sum(sd.qtyOrdered) from Product_Master p, sales_order s,sales_order_details sd,client_master c where (c.clientName="mamta muzmudar" or c.clientName ="Ivan Bayross") and s.orderNo=sd.orderNo and sd.productNo=p.ProductNo and c.clientNo=s.clientNo group by sd.productNo,p.description;
+-- g..................
+
+
+
+select s.clientNo,d.productNo,p.description ,sum(qtyOrdered)"Qty_ordered"
+from sales_order s,sales_order_details d,Product_Master p,client_master c
+where s.orderNo=d.orderNo and d.productNo=p.productNo and s.clientNo=c.clientNo
+group by s.clientNo,d.productNo,p.description
+having s.clientNo='C00001' or s.clientNo='C00002';
+
+--&&&&&&&&&&&& subQuery &&&&&&&&&&&&&&&&&&&&&&
+
+--a..............
+ select productNo,description from Product_Master where productNo not in(select productNo from sales_order_details);
+ --b....................
+  select clientNo,clientName,address1,address2,city from client_master where clientNo in(select clientNo from sales_order where orderNo='019001');
